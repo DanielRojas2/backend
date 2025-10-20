@@ -21,6 +21,15 @@ from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+def options_view(request):
+    response = JsonResponse({'detail': 'OK'})
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, PUT, DELETE"
+    response["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    return response
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -37,8 +46,9 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apis.usuarios.urls')),
-    path('', include('apis.almacenes.urls')),
+    path("options/", csrf_exempt(options_view)),
+    path('usuarios/', include('apis.usuarios.urls')),
+    path('almacenes/', include('apis.almacenes.urls')),
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
    	path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
    	path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
