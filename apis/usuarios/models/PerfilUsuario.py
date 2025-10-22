@@ -14,7 +14,7 @@ class PerfilUsuario(AbstractBaseUser):
     apellido_materno = models.CharField(
         max_length=25, blank=True, null=True
     )
-    usuario_activo = models.BooleanField(blank=False, null=False)
+    usuario_activo = models.BooleanField(blank=False, null=False, default=True)
     usuario_admin = models.BooleanField(default=False)
     alta = models.DateField(auto_now_add=True)
     baja = models.DateField(blank=True, null=True)

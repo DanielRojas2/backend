@@ -48,6 +48,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("options/", csrf_exempt(options_view)),
     path('api-usuarios/', include('apis.usuarios.urls')),
+    path('api-notificaciones/', include('apis.notificaciones.urls')),
     path('api-almacenes/', include('apis.almacenes.urls')),
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
    	path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

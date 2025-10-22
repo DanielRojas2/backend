@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +39,7 @@ BASE_APPS = [
 
 LOCAL_APPS = [
     'apis.usuarios',
+    'apis.notificaciones',
     'apis.almacenes',
     'apis.material',
     'apis.inventarios',
@@ -122,6 +124,13 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
+
+CELERY_BEAT_SCHEDULE = {
+    'notificar-usuarios-proximos-baja': {
+        'task': 'notificaciones.tasks.generar_notificaciones_baja',
+        'schedule': crontab(hour=0, minute=0),
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

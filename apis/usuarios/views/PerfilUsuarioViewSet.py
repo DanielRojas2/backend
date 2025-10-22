@@ -104,13 +104,6 @@ class PerfilUsuarioViewSet(viewsets.ModelViewSet):
         return Response(data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'])
-    def reporte_auditoria(self, request):
-        self.allowed_roles = ['encargado de sistemas']
-        logs = UsuarioLog.objects.select_related('usuario').order_by('-fecha')
-        serializer = UsuarioLogSerializer(logs, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['get'])
     def proximos_a_vencer(self, request):
         self.allowed_roles = ['encargado de sistemas']
         hoy = date.today()
