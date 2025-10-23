@@ -1,27 +1,17 @@
 from rest_framework import serializers
-from ..models.NivelEstante import NivelEstante
+from ..models.Almacen import Almacen
+
+class EstanteReporteSerializer(serializers.Serializer):
+    nro_estante = serializers.IntegerField()
+    cantidad_niveles = serializers.IntegerField()
 
 class ReporteAlmacenSerializer(serializers.ModelSerializer):
-    nivel_estante = serializers.SerializerMethodField()
-    almacen = serializers.CharField(
-        source='estante.almacen.id', read_only=True
-    )
-    ubicacion = serializers.CharField(
-        source='estante.almacen.ubicacion', read_only=True
-    )
-    tipo_almacen = serializers.CharField(
-        source='estante.almacen.tipo_almacen', read_only=True
-    )
+    total_estantes = serializers.IntegerField()
+    estantes = EstanteReporteSerializer(many=True, read_only=True)
 
     class Meta:
-        model = NivelEstante
+        model = Almacen
         fields = [
-            'id',
-            'nivel_estante',
-            'almacen',
-            'ubicacion',
-            'tipo_almacen'
+            'id', 'tipo_almacen', 'ubicacion',
+            'total_estantes', 'estantes'
         ]
-
-    def get_nivel_estante(self, obj):
-        return f"Nivel {obj.nivel.nro_nivel} - Estante {obj.estante.nro_estante}"

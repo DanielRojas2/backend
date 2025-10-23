@@ -15,12 +15,12 @@ class PerfilUsuarioViewSet(viewsets.ModelViewSet):
         'cargo__departamento', 'cargo__unidad', 'cargo__rol'
     )
     serializer_class = PerfilUsuarioSerializer
-    permission_classes = [IsAuthenticated, RolPermission]
+    #permission_classes = [IsAuthenticated, RolPermission]
 
     allowed_roles = ['encargado de sistemas']
 
     def create(self, request, *args, **kwargs):
-        self.allowed_roles = ['encargado de sistemas']
+        #self.allowed_roles = ['encargado de sistemas']
         data = request.data.copy()
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
